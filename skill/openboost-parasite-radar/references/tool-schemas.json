@@ -1,0 +1,1103 @@
+{
+  "captured_at": "2026-11-09",
+  "tools": [
+    {
+      "description": "分页查询 TT 视频选品列表，支持国家/地区、标题与达人/商品/店铺、发布时间、播放互动、近30日销量与 GMV、投流与带货类型、数据维度与销量口径、总结/脚本标记等筛选与排序。；无「查看全部」权限时仅可查询前 3 页；每页最多 30 条。",
+      "inputSchema": {
+        "properties": {
+          "adSource": {
+            "description": "是否投流：0 否 / 1 是",
+            "type": "integer"
+          },
+          "commodityId": {
+            "description": "商品编号",
+            "type": "string"
+          },
+          "countryRegion": {
+            "description": "国家/地区，与站内选品一致；paramCheck 要求非空",
+            "type": "string"
+          },
+          "current": {
+            "description": "当前页码，默认 1；无「查看全部」权限时 current > 3 会报错",
+            "type": "integer"
+          },
+          "dataPeriod": {
+            "description": "数据维度，与 date 等联用",
+            "type": "string"
+          },
+          "date": {
+            "description": "数据日期，ISO 8601 日期时间字符串",
+            "type": "string"
+          },
+          "expertId": {
+            "description": "达人编号",
+            "type": "string"
+          },
+          "expertName": {
+            "description": "达人名称/昵称筛选",
+            "type": "string"
+          },
+          "fansNumberEnd": {
+            "description": "粉丝数区间上限",
+            "type": "integer"
+          },
+          "fansNumberStart": {
+            "description": "粉丝数区间下限",
+            "type": "integer"
+          },
+          "gmvLast30dEnd": {
+            "description": "近30天销售额区间上限",
+            "type": "integer"
+          },
+          "gmvLast30dStart": {
+            "description": "近30天销售额区间下限（与接口数值口径一致）",
+            "type": "integer"
+          },
+          "hasVideoScript": {
+            "description": "是否有视频脚本",
+            "type": "string"
+          },
+          "hasVideoSummary": {
+            "description": "是否有视频总结（与站内标记一致）",
+            "type": "string"
+          },
+          "hasVoiceSummary": {
+            "description": "是否有评论总结",
+            "type": "string"
+          },
+          "interactionRateEnd": {
+            "description": "互动率区间上限（百分比口径）",
+            "type": "string"
+          },
+          "interactionRateStart": {
+            "description": "互动率区间下限（百分比口径，与前端一致）",
+            "type": "string"
+          },
+          "likeNumberEnd": {
+            "description": "点赞数区间上限",
+            "type": "integer"
+          },
+          "likeNumberStart": {
+            "description": "点赞数区间下限",
+            "type": "integer"
+          },
+          "mainCategory": {
+            "description": "主营类目",
+            "type": "string"
+          },
+          "offset": {
+            "description": "偏移量，可选",
+            "type": "integer"
+          },
+          "orderType": {
+            "description": "排序类型，如 playNumberDesc（默认播放量降序）、publishTimeDesc 等，完整见 VideoInfoRequest 注释",
+            "type": "string"
+          },
+          "playNumberEnd": {
+            "description": "播放量区间上限",
+            "type": "integer"
+          },
+          "playNumberStart": {
+            "description": "播放量区间下限",
+            "type": "integer"
+          },
+          "publishTimeEnd": {
+            "description": "发布日期止，yyyy-MM-dd（GMT+8）",
+            "type": "string"
+          },
+          "publishTimeStart": {
+            "description": "发布日期起，yyyy-MM-dd（GMT+8）",
+            "type": "string"
+          },
+          "reviewsNumberEnd": {
+            "description": "评论数区间上限",
+            "type": "integer"
+          },
+          "reviewsNumberStart": {
+            "description": "评论数区间下限",
+            "type": "integer"
+          },
+          "salesPeriod": {
+            "description": "销量口径：day / last7Day / last30Day 等",
+            "type": "string"
+          },
+          "shopId": {
+            "description": "店铺 ID",
+            "type": "string"
+          },
+          "size": {
+            "description": "每页条数，默认 10，最大 30（paramPageListCheck）",
+            "type": "integer"
+          },
+          "soldLast30dEnd": {
+            "description": "近30天销量区间上限",
+            "type": "integer"
+          },
+          "soldLast30dStart": {
+            "description": "近30天销量区间下限",
+            "type": "integer"
+          },
+          "videoTitle": {
+            "description": "视频标题关键词，空格分词",
+            "type": "string"
+          },
+          "videoType": {
+            "description": "视频类型，如 powerVideo 带货视频",
+            "type": "string"
+          }
+        },
+        "required": [
+          "countryRegion"
+        ],
+        "type": "object"
+      },
+      "name": "tt_video_info_list"
+    },
+    {
+      "description": "按种子词分页查询 Amazon 关键词挖掘数据，返回搜索量、SPR、标题密度、商品数、广告竞品数、均价、评分、点击集中度及亚马逊推荐词等字段",
+      "inputSchema": {
+        "properties": {
+          "amazonChoice": {
+            "description": "亚马逊推荐词；true 时仅返回 have_amazon_choice = Y 的结果",
+            "type": "boolean"
+          },
+          "ds": {
+            "description": "历史日期 yyyyMM 格式，不传时取对应数据源的最大 ds，如 202201",
+            "type": "string"
+          },
+          "excludeKeywords": {
+            "description": "排除的词（Array<String>）；支持多个关键词或词组，多词用英文逗号隔开",
+            "type": "array"
+          },
+          "filterRootWord": {
+            "description": "过滤词根；决定 keyword/keywordList 的匹配方式，不传默认 0；0 不过滤、1 仅词根",
+            "type": "integer"
+          },
+          "includeKeywords": {
+            "description": "包含的词（Array<String>）；对查询结果按 matchType 二次筛选，需与 matchType 同时传入才生效；支持多个关键词或词组，多词用英文逗号隔开",
+            "type": "array"
+          },
+          "keyword": {
+            "description": "关键词（种子词），如 phone stand，与 keywordList 二选一",
+            "type": "string"
+          },
+          "keywordList": {
+            "description": "批量查询关键词（Array<String>），如 [\"phone stand\"]，与 keyword 二选一即可",
+            "type": "array"
+          },
+          "matchType": {
+            "description": "匹配方式；仅对 includeKeywords 生效，需与 includeKeywords 同时传入才生效；2 广泛匹配、3 词组匹配",
+            "type": "integer"
+          },
+          "maxAdProducts": {
+            "description": "最大广告竞品数，如 345",
+            "type": "integer"
+          },
+          "maxMonopolyClickRate": {
+            "description": "最大点击集中度，如 53.1",
+            "type": "number"
+          },
+          "maxPrice": {
+            "description": "最大均价，如 234.2",
+            "type": "number"
+          },
+          "maxProducts": {
+            "description": "最大商品数，如 324",
+            "type": "integer"
+          },
+          "maxRating": {
+            "description": "最大评分值，如 4.9",
+            "type": "number"
+          },
+          "maxRatings": {
+            "description": "最大评分数，如 399",
+            "type": "integer"
+          },
+          "maxSearch": {
+            "description": "最大搜索量，如 23453",
+            "type": "integer"
+          },
+          "maxSearchRank": {
+            "description": "最大搜索排名，如 3223",
+            "type": "integer"
+          },
+          "maxSpr": {
+            "description": "最大 SPR，如 16",
+            "type": "integer"
+          },
+          "maxTitleDensity": {
+            "description": "最大标题密度，如 23",
+            "type": "integer"
+          },
+          "maxWordCount": {
+            "description": "最大单词个数，如 4",
+            "type": "integer"
+          },
+          "minAdProducts": {
+            "description": "最小广告竞品数，如 123",
+            "type": "integer"
+          },
+          "minMonopolyClickRate": {
+            "description": "最小点击集中度，如 23.4",
+            "type": "number"
+          },
+          "minPrice": {
+            "description": "最小均价，如 43.3",
+            "type": "number"
+          },
+          "minProducts": {
+            "description": "最小商品数，如 54",
+            "type": "integer"
+          },
+          "minRating": {
+            "description": "最小评分值，如 3",
+            "type": "number"
+          },
+          "minRatings": {
+            "description": "最小评分数，如 100",
+            "type": "integer"
+          },
+          "minSearch": {
+            "description": "最小搜索量，如 543",
+            "type": "integer"
+          },
+          "minSearchRank": {
+            "description": "最小搜索排名，如 33",
+            "type": "integer"
+          },
+          "minSpr": {
+            "description": "最小 SPR，如 2",
+            "type": "integer"
+          },
+          "minTitleDensity": {
+            "description": "最小标题密度，如 2",
+            "type": "integer"
+          },
+          "minWordCount": {
+            "description": "最小单词个数，如 2",
+            "type": "integer"
+          },
+          "order.desc": {
+            "description": "排序方向：true 降序、false 升序，默认降序",
+            "type": "boolean"
+          },
+          "order.field": {
+            "description": "排序字段：searchRank、spr、titleDensity、searches",
+            "type": "string"
+          },
+          "page": {
+            "description": "页码，默认 1，从 1 开始",
+            "type": "integer"
+          },
+          "size": {
+            "description": "每页条数，默认 50，最大 100",
+            "type": "integer"
+          },
+          "webSiteId": {
+            "description": "市场站点 ID。常用：1=us,2=gb,3=de,4=fr,5=jp,6=ca,8=it,9=es,10=in,11=mx,12=au,13=br,17=pl,21=ae,22=sa,23=eg",
+            "type": "string"
+          }
+        },
+        "required": [
+          "webSiteId"
+        ],
+        "type": "object"
+      },
+      "name": "amz_keyword_miner"
+    },
+    {
+      "description": "按关键词与地区查询 Google Trends 近 5 年兴趣度时序数据，返回各关键词平均值（averages）及时间线明细（timeline_data）",
+      "inputSchema": {
+        "properties": {
+          "date": {
+            "description": "时间范围，固定传 today 5-y（近 5 年）",
+            "type": "string"
+          },
+          "geo": {
+            "description": "地区区域代码。常用：US=美国,GB=英国,DE=德国,FR=法国,JP=日本,CA=加拿大,IT=意大利,ES=西班牙,IN=印度,MX=墨西哥,AU=澳大利亚,BR=巴西,CN=中国；完整对照见开放平台附录表 1.18",
+            "type": "string"
+          },
+          "keywords": {
+            "description": "关键词，多个用英文逗号分隔，最多 5 个，如 123,google,big,apple,coffee",
+            "type": "string"
+          }
+        },
+        "required": [
+          "keywords",
+          "geo",
+          "date"
+        ],
+        "type": "object"
+      },
+      "name": "amz_google_trends"
+    },
+    {
+      "description": "按视频 ID 查询库中口播/语音转写正文（与 DIY 脚本、系统脚本链路前置的口播原文一致）。；无正文时仍可能成功且 data 为 null 或空字符串。",
+      "inputSchema": {
+        "properties": {
+          "countryRegion": {
+            "description": "国家/地区（中文名），用于大区视频分表路由；建议与列表/详情等接口保持一致传入",
+            "type": "string"
+          },
+          "videoId": {
+            "description": "视频编号；paramCheck 要求非空，否则业务提示「视频编号不能为空」",
+            "type": "string"
+          }
+        },
+        "required": [
+          "videoId"
+        ],
+        "type": "object"
+      },
+      "name": "tt_video_content"
+    },
+    {
+      "description": "TT 商品带货达人粉丝档位分析：按粉丝量级分档统计达人数、类目销量合计、占比与人均销量；有数据时通常固定 5 档。档位名称 group 随请求头 Language。无统计时 data 为空数组。态；密钥仅走网关。",
+      "inputSchema": {
+        "properties": {
+          "commodityId": {
+            "description": "TT 商品 ID；为空时报「商品编号不能为空」。",
+            "type": "string"
+          },
+          "countryRegion": {
+            "description": "国家/地区，建议与选品站点一致，否则可能无数据或不准。",
+            "type": "string"
+          }
+        },
+        "required": [
+          "commodityId"
+        ],
+        "type": "object"
+      },
+      "name": "tt_expert_fans_analyze"
+    },
+    {
+      "description": "按视频 ID 查询新版视频总结（结构化列表）。；data 为 Map 列表，键值以实际联调为准。",
+      "inputSchema": {
+        "properties": {
+          "countryRegion": {
+            "description": "国家/地区；请求体字段与 VideoDetailRequest 一致，当前实现仅将 videoId 传入业务",
+            "type": "string"
+          },
+          "videoId": {
+            "description": "视频编号；paramCheck 要求非空",
+            "type": "string"
+          }
+        },
+        "required": [
+          "videoId"
+        ],
+        "type": "object"
+      },
+      "name": "tt_video_new_video_summary"
+    },
+    {
+      "description": "语义检索相似专利：输入一段技术描述文本（建议 ≥200 字），通过语义向量检索全球专利库中最相似的专利，返回 pn、patent_id 及相似度（relevancy）。可按国家、申请日/公开日范围、相似度阈值筛选；limit+offset ≤ 20000，单次最多返回 1000 条。",
+      "inputSchema": {
+        "properties": {
+          "apd_from": {
+            "description": "申请日开始，8 位数字 YYYYMMDD 或 * 表示不限",
+            "type": "string"
+          },
+          "apd_to": {
+            "description": "申请日结束，格式同 apd_from",
+            "type": "string"
+          },
+          "country": {
+            "description": "国家/地区及申请类型代码数组，如 [\"CNA\",\"CNB\",\"USB\"]；A=发明申请/B=授权发明/U=实用新型/D=外观；MCP 调用时直接传 JSON 数组，不要传成字符串",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "limit": {
+            "description": "返回条数，默认 10，最大 1000",
+            "type": "integer"
+          },
+          "offset": {
+            "description": "分页偏移，limit+offset ≤ 20000",
+            "type": "integer"
+          },
+          "pbd_from": {
+            "description": "公开日开始，8 位数字或 *",
+            "type": "string"
+          },
+          "pbd_to": {
+            "description": "公开日结束，格式同 pbd_from",
+            "type": "string"
+          },
+          "relevancy": {
+            "description": "相似度阈值，如 50%，仅返回高于该阈值的专利",
+            "type": "string"
+          },
+          "text": {
+            "description": "用于语义检索的技术描述文本，建议不少于 200 字，如权利要求或技术方案摘录",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "type": "object"
+      },
+      "name": "patent_semantic_search"
+    },
+    {
+      "description": "TT 选品商品分页列表：多条件筛选、排序、图搜；返回 Page（records 为商品行）。态；无查看全部时仅前 3 页；commodityName 非空消耗搜索额度。密钥仅走网关，勿写入模板。",
+      "inputSchema": {
+        "properties": {
+          "commodityCatId": {
+            "description": "类目 ID（筛选）。",
+            "type": "string"
+          },
+          "commodityCategory": {
+            "description": "商品类目（筛选）。",
+            "type": "string"
+          },
+          "commodityIdList": {
+            "description": "商品 ID 列表，批量筛选。",
+            "type": "array"
+          },
+          "commodityName": {
+            "description": "商品名称关键词；非空时消耗选品搜索次数额度（无查看全部权限时超限报错）。",
+            "type": "string"
+          },
+          "countryRegion": {
+            "description": "国家/地区，与站内选品一致；为空时服务端校验失败。",
+            "type": "string"
+          },
+          "current": {
+            "description": "当前页码，默认 1；无「查看全部」权限时 current>3 会报错。",
+            "type": "integer"
+          },
+          "dataPeriod": {
+            "description": "数据维度：last7d（默认）/last30d/day/customScope 等，见附录表 1.8；customScope 时须配合 reportMonthStart 与 reportMonthEnd。",
+            "type": "string"
+          },
+          "date": {
+            "description": "统计日，建议 yyyy-MM-dd（GMT+8）；dataPeriod 为 day 时使用。",
+            "type": "string"
+          },
+          "expertId": {
+            "description": "达人编号，关联筛选。",
+            "type": "string"
+          },
+          "isCrossBorder": {
+            "description": "是否全托管：0 非全托管、1 全托管；传入空值（\"\"）或不传此参数时不过滤。",
+            "type": "integer"
+          },
+          "isNew": {
+            "description": "是否新品：0 非新品、1 新品；传入空值（\"\"）或不传此参数时不过滤。",
+            "type": "string"
+          },
+          "offset": {
+            "description": "偏移量（分页模型字段，按需）。",
+            "type": "integer"
+          },
+          "orderType": {
+            "description": "排序：销量 salesDesc/salesAsc，销售额 salesVolumeDesc/salesVolumeAsc，销量增长率 salesQoqDesc/salesQoqAsc（仅 last7d/last30d），带货达人数 powerSellerNumberDesc/powerSellerNumberAsc，有邮箱达人数 powerSellerEmailNumberDesc/powerSellerEmailNumberAsc， 价格 commodityPriceDesc/commodityPriceAsc，星级 commodityStarRateDesc/commodityStarRateAsc，上架时间 shelfTimeDesc/shelfTimeAsc，评论数 reviewsNumberDesc/reviewsNumberAsc，总销量 totalSalesNumberDesc/totalSalesNumberAsc，总销售额 totalSaleIncomeNumberDesc/totalSaleIncomeNumberAsc。",
+            "type": "string"
+          },
+          "pictureKeyWord": {
+            "description": "图搜关键词。",
+            "type": "string"
+          },
+          "pictureUrl": {
+            "description": "图搜图片公网 URL；与 pictureKeyWord 任一有值时走图搜。",
+            "type": "string"
+          },
+          "powerSellerNumberEnd": {
+            "description": "带货达人数区间终点。",
+            "type": "integer"
+          },
+          "powerSellerNumberStart": {
+            "description": "带货达人数区间起点；仅填一端时另一端自动补全。",
+            "type": "integer"
+          },
+          "priceEnd": {
+            "description": "最大价格（数值，JSON 数字）。",
+            "type": "string"
+          },
+          "priceStart": {
+            "description": "最小价格（数值，JSON 数字）。",
+            "type": "string"
+          },
+          "reportDateEnd": {
+            "description": "报告日期终点（字符串）。",
+            "type": "string"
+          },
+          "reportDateStart": {
+            "description": "报告日期起点（字符串）。",
+            "type": "string"
+          },
+          "reportMonthEnd": {
+            "description": "时间区间止，格式 yyyyMM 如 202606；dataPeriod 为 customScope 时使用，须与 reportMonthStart 成对传入。",
+            "type": "string"
+          },
+          "reportMonthStart": {
+            "description": "时间区间起，格式 yyyyMM 如 202605；dataPeriod 为 customScope 时使用，须与 reportMonthEnd 成对传入。",
+            "type": "string"
+          },
+          "reviewsNumberEnd": {
+            "description": "评论数区间终点。",
+            "type": "integer"
+          },
+          "reviewsNumberStart": {
+            "description": "评论数区间起点；仅填一端时另一端自动补全。",
+            "type": "integer"
+          },
+          "saleTimeEnd": {
+            "description": "销售时间范围终点（字符串）。",
+            "type": "string"
+          },
+          "saleTimeStart": {
+            "description": "销售时间范围起点（字符串）。",
+            "type": "string"
+          },
+          "salesEnd": {
+            "description": "销量区间终点。",
+            "type": "integer"
+          },
+          "salesStart": {
+            "description": "销量区间起点。",
+            "type": "integer"
+          },
+          "salesVolumeEnd": {
+            "description": "销售额区间终点（数值，JSON 数字）。",
+            "type": "string"
+          },
+          "salesVolumeStart": {
+            "description": "销售额区间起点（数值，JSON 数字）。",
+            "type": "string"
+          },
+          "scoreEnd": {
+            "description": "最大评分（数值，JSON 数字）。",
+            "type": "string"
+          },
+          "scoreStart": {
+            "description": "最小评分（数值，JSON 数字）。",
+            "type": "string"
+          },
+          "shelfTimeEnd": {
+            "description": "上架时间范围终点。",
+            "type": "string"
+          },
+          "shelfTimeStart": {
+            "description": "上架时间范围起点（与后端 Date 反序列化格式一致，如时间戳或 ISO）。",
+            "type": "string"
+          },
+          "shopId": {
+            "description": "店铺编号，关联筛选。",
+            "type": "string"
+          },
+          "size": {
+            "description": "每页条数，默认 10，最大 30（超出抛业务异常）。",
+            "type": "integer"
+          },
+          "totalSaleIncomeNumberEnd": {
+            "description": "总销售额区间终点（数值，JSON 数字）。",
+            "type": "string"
+          },
+          "totalSaleIncomeNumberStart": {
+            "description": "总销售额区间起点（数值，JSON 数字）；仅填一端时另一端自动补全。",
+            "type": "string"
+          },
+          "totalSalesNumberEnd": {
+            "description": "总销量区间终点。",
+            "type": "integer"
+          },
+          "totalSalesNumberStart": {
+            "description": "总销量区间起点；仅填一端时另一端自动补全。",
+            "type": "integer"
+          },
+          "videoId": {
+            "description": "视频编号，关联筛选。",
+            "type": "string"
+          }
+        },
+        "required": [
+          "countryRegion"
+        ],
+        "type": "object"
+      },
+      "name": "tt_commodity_info_list"
+    },
+    {
+      "description": "专利图像检索（单图）：上传一张图片的公网 URL，在全球专利附图库中检索外观/实用新型相似专利并分页返回。必填 url、model、patent_type（D=外观/U=实用新型）。country 示例 [\"US\",\"EP\",\"CN\"]，须传 JSON 数组而非字符串，否则报 error_code 20000。",
+      "inputSchema": {
+        "properties": {
+          "apply_end_time": {
+            "description": "申请日结束，格式 yyyyMMdd",
+            "type": "string"
+          },
+          "apply_start_time": {
+            "description": "申请日开始，格式 yyyyMMdd",
+            "type": "string"
+          },
+          "assignees": {
+            "description": "筛选申请（专利权）人",
+            "type": "string"
+          },
+          "country": {
+            "description": "国家或组织代码列表（多选），示例 [\"US\",\"EP\",\"CN\"]；取值见附录表 2.1：WO=世界知识产权组织、EP=欧洲、CN=中国、US=美国、JP=日本、KR=韩国、DE=德国、FR=法国、AU=澳大利亚、AD=安道尔、AE=阿拉伯联合酋长国、AG=安提瓜和巴布达、AI=安圭拉、AL=阿尔巴尼亚、AM=亚美尼亚、AO=安哥拉、AP=非洲地区工业产权组织、AR=阿根廷、AT=奥地利、AW=阿鲁巴、AZ=阿塞拜疆、BA=波斯尼亚和黑塞哥维那、BB=巴巴多斯、BD=孟加拉国、BE=比利时、BG=保加利亚、BH=巴林、BM=百慕大、BN=文莱、BO=玻利维亚、BR=巴西、BS=巴哈马、BT=不丹、BW=博茨瓦纳、BX=比荷卢经济联盟、BY=白俄罗斯、BZ=伯利兹、CA=加拿大、CD=刚果(金)、CG=刚果(布)、CH=瑞士、CL=智利、CO=哥伦比亚、CR=哥斯达黎加、CS=捷克和斯洛伐克共和国、CU=古巴、CV=佛得角、CY=塞浦路斯、CZ=捷克、DD=东德、DJ=吉布提、DK=丹麦、DM=多米尼克、DO=多米尼加共和国、DZ=阿尔及利亚、EA=欧亚专利局、EC=厄瓜多尔、EE=爱沙尼亚、EG=埃及、ES=西班牙、ET=埃塞俄比亚、EU=欧盟、FI=芬兰、FJ=斐济、GB=英国、GC=海湾地区阿拉伯国家合作委员会专利局、GE=格鲁吉亚、GH=加纳、GR=希腊、GT=危地马拉、GY=圭亚那、HK=中国香港、HN=洪都拉斯、HR=克罗地亚、HU=匈牙利、ID=印度尼西亚、IE=爱尔兰、IL=以色列、IN=印度、IQ=伊拉克、IR=伊朗、IS=冰岛、IT=意大利、JE=泽西、JO=约旦、KE=肯尼亚、KG=吉尔吉斯斯坦、KH=柬埔寨、KY=开曼群岛、KZ=哈萨克斯坦、LA=老挝、LB=黎巴嫩、LI=列支敦士登、LK=斯里兰卡、LT=立陶宛、LU=卢森堡、LV=拉脱维亚、MA=摩洛哥、MC=摩纳哥、MD=摩尔多瓦、ME=黑山共和国、MG=马达加斯加、MK=北马其顿共和国、MM=缅甸、MN=蒙古、MO=中国澳门、MS=蒙特塞拉特、MT=马耳他、MU=毛里求斯、MW=马拉维、MX=墨西哥、MY=马来西亚、MZ=莫桑比克、NA=纳米比亚、NG=尼日利亚、NI=尼加拉瓜、NL=荷兰、NO=挪威、NZ=新西兰、OA=非洲知识产权组织、OM=阿曼、PA=巴拿马、PE=秘鲁、PG=巴布亚新几内亚、PH=菲律宾、PK=巴基斯坦、PL=波兰、PS=巴勒斯坦、PT=葡萄牙、PY=巴拉圭、QA=卡塔尔、RO=罗马尼亚、RS=塞尔维亚共和国、RU=俄罗斯、RW=卢旺达、SA=沙特阿拉伯、SB=所罗门群岛、SC=塞舌尔、SD=苏丹、SE=瑞典、SG=新加坡、SI=斯洛文尼亚、SK=斯洛伐克、SM=圣马力诺、ST=圣多美和普林西比、SU=前苏联、SV=萨尔瓦多、SY=叙利亚、TC=特克斯和凯科斯群岛、TH=泰国、TJ=塔吉克斯坦、TM=土库曼斯坦、TN=突尼斯、TO=汤加、TR=土耳其、TT=特立尼达和多巴哥、TW=中国台湾、TZ=坦桑尼亚、UA=乌克兰、UG=乌干达、UY=乌拉圭、UZ=乌兹别克斯坦、VC=圣文森特和格林纳丁斯、VE=委内瑞拉、VG=英属维尔京群岛、VN=越南、WS=萨摩亚、XK=科索沃、YE=也门、YU=南斯拉夫、ZA=南非、ZM=赞比亚、ZN=桑给巴尔、ZW=津巴布韦；MCP 调用时直接传 JSON 数组，不要传成字符串",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "field": {
+            "description": "排序字段：SCORE 最相关 / APD 申请日 / PBD 公开日 / ISD 授权日",
+            "type": "string"
+          },
+          "include_machine_translation": {
+            "description": "是否包含机器翻译数据",
+            "type": "boolean"
+          },
+          "is_https": {
+            "description": "1=返回 https 图片地址；0=返回 http（默认）",
+            "type": "integer"
+          },
+          "lang": {
+            "description": "original 原文（默认）/ cn 中文译题 / en 英文译题",
+            "type": "string"
+          },
+          "legal_status": {
+            "description": "法律状态码，多选逗号分隔；含公开、实审、授权、驳回、失效、PCT 等，以联调为准",
+            "type": "string"
+          },
+          "limit": {
+            "description": "返回条数，默认 10，范围 1～100",
+            "type": "integer"
+          },
+          "loc": {
+            "description": "洛迦诺外观分类检索式，可用 AND/OR/NOT 组合",
+            "type": "string"
+          },
+          "main_field": {
+            "description": "通用检索字段，覆盖标题/摘要/权项/说明书/编号/申请人/发明人/分类号等",
+            "type": "string"
+          },
+          "model": {
+            "description": "检索模型：外观专利 1=智能联想（推荐）/2=搜索此图；实用新型 3=匹配形状/4=匹配形状+图案+色彩（推荐）",
+            "type": "integer"
+          },
+          "offset": {
+            "description": "起始偏移，默认 0，范围 0～1000",
+            "type": "integer"
+          },
+          "order": {
+            "description": "排序方向，field 为 APD/PBD/ISD 时有效：desc（默认）或 asc",
+            "type": "string"
+          },
+          "patent_type": {
+            "description": "专利类型：D=外观专利；U=实用新型专利",
+            "type": "string"
+          },
+          "pre_filter": {
+            "description": "前置过滤：1=开启国家/LOC 过滤（默认）；0=关闭",
+            "type": "integer"
+          },
+          "public_end_time": {
+            "description": "公开日结束，格式 yyyyMMdd",
+            "type": "string"
+          },
+          "public_start_time": {
+            "description": "公开日开始，格式 yyyyMMdd",
+            "type": "string"
+          },
+          "query_text": {
+            "description": "Analytics 风格附加检索式，如 TACD: virtual reality",
+            "type": "string"
+          },
+          "return_img_id": {
+            "description": "是否返回附图 img_id",
+            "type": "boolean"
+          },
+          "score_expansion": {
+            "description": "是否开启分数拓展",
+            "type": "boolean"
+          },
+          "simple_legal_status": {
+            "description": "简单法律状态码，多选逗号分隔；如有效、审中、失效等",
+            "type": "string"
+          },
+          "stemming": {
+            "description": "词干化：1=开启；0=关闭（默认）；仅对英文关键词生效",
+            "type": "integer"
+          },
+          "url": {
+            "description": "待检索图片的公网可访问地址；本地图请先自行换为 HTTPS 公网 URL 后再传入",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url",
+          "model",
+          "patent_type"
+        ],
+        "type": "object"
+      },
+      "name": "patent_image_search_single"
+    },
+    {
+      "description": "分页查询 AMZ 评论（Hologres）；按评论时间从新到旧",
+      "inputSchema": {
+        "properties": {
+          "current": {
+            "description": "页码，从 1 开始，默认 1",
+            "type": "integer"
+          },
+          "size": {
+            "description": "每页条数，默认 5，最大 10",
+            "type": "integer"
+          },
+          "skuId": {
+            "description": "AMZ SKU ID",
+            "type": "string"
+          },
+          "webSiteId": {
+            "description": "站点 ID；不传或空则默认 1",
+            "type": "string"
+          }
+        },
+        "required": [
+          "skuId"
+        ],
+        "type": "object"
+      },
+      "name": "amz_review_query"
+    },
+    {
+      "description": "按站点与 ASIN 列表分页查询产品关联流量来源，返回关联商品的标题、品牌、价格、BSR、销量、评价、卖家、标识及尺寸重量等信息；variations=true时按同父体（SPU）覆盖全部变体的关联商品",
+      "inputSchema": {
+        "properties": {
+          "asinList": {
+            "description": "ASIN 列表（Array<String>），最多 20 个，如 [\"B01J24OIA2\"]",
+            "type": "array"
+          },
+          "order.desc": {
+            "description": "是否降序：true 降序（默认）、false 升序",
+            "type": "boolean"
+          },
+          "order.field": {
+            "description": "排序字段：createTime、units、bsr、ratings、rating、price、availableDate；默认 createTime",
+            "type": "string"
+          },
+          "page": {
+            "description": "页码，从 1 开始，默认 1",
+            "type": "integer"
+          },
+          "relations": {
+            "description": "关联类型（Array<String>），忽略大小写。常用：vav（看了又看）、fbt（组合购买）、bab（买了又买）、sp（商品广告）；完整见附录表 1.21：mib/fbt/csi/cob/mie/bab/vav/avp/bav/asf/cpf/bca/fsa/sp",
+            "type": "array"
+          },
+          "size": {
+            "description": "每页条数，默认 50，最大 100",
+            "type": "integer"
+          },
+          "variations": {
+            "description": "是否查询变体；默认 false；为 true 时按入参 ASIN 对应父体（SPU）查询该父体下全部变体的关联商品",
+            "type": "boolean"
+          },
+          "webSiteId": {
+            "description": "市场站点 ID。仅支持：1=us,2=gb,3=de,4=fr,5=jp,6=ca,8=it,9=es,10=in,11=mx,12=au（附录表 1.20）",
+            "type": "string"
+          }
+        },
+        "required": [
+          "webSiteId",
+          "asinList",
+          "relations"
+        ],
+        "type": "object"
+      },
+      "name": "amz_traffic_listing_page"
+    },
+    {
+      "description": "按站点、品牌、卖家、ASIN、类目路径、关键词、变体等条件分页查询竞品商品列表。传入查询月份时，仅返回该月在销量与状态快照中均有记录的商品，并回填对应月份的价格、销量、评价与排名等字段；不传月份时返回站点最新快照数据（含近 30 天销量字段）",
+      "inputSchema": {
+        "properties": {
+          "asins": {
+            "description": "ASIN 列表，如 B01HMWWLCI",
+            "type": "array"
+          },
+          "brand": {
+            "description": "品牌，如 Rushmore Rose USA",
+            "type": "string"
+          },
+          "catIdPathEqual": {
+            "description": "类目匹配方式：true 精确匹配，false（默认）包含匹配",
+            "type": "boolean"
+          },
+          "catIdPaths": {
+            "description": "类目路径，冒号分隔，如 2619525011:3741271:3741281",
+            "type": "string"
+          },
+          "keyword": {
+            "description": "关键字，如 flags。按 matchType 匹配 item_title，忽略大小写；不传则不过滤",
+            "type": "string"
+          },
+          "matchType": {
+            "description": "关键词匹配方式：1 词组、2 模糊（默认）、3 精准",
+            "type": "integer"
+          },
+          "month": {
+            "description": "查询月份，格式 yyyyMM，如 202507。传入时仅返回该月在销量与状态快照中均有记录的商品，并回填对应月份的价格、销量、评价与排名；不传则返回站点最新快照（含近 30 天销量）",
+            "type": "string"
+          },
+          "order.desc": {
+            "description": "排序方式：true 降序（默认），false 升序",
+            "type": "boolean"
+          },
+          "order.field": {
+            "description": "排序字段，默认 total_units，可选 total_units / reviews_ratings / reviews_stars / selling_price_dig / date_first_available / spu_sales_last_30d / sku_sales_last_30d / rank_by_first_cat；未传 order 时按 total_units 降序",
+            "type": "string"
+          },
+          "page": {
+            "description": "页码，默认 1",
+            "type": "integer"
+          },
+          "sellerName": {
+            "description": "卖家名称，如 Rushmore Rose USA Flags",
+            "type": "string"
+          },
+          "size": {
+            "description": "每页条数，默认 50，最大 100",
+            "type": "integer"
+          },
+          "variation": {
+            "description": "变体筛选：N 只查询当前入参条件下的变体，Y 查询父体下所有变体；不传时默认只查询当前变体",
+            "type": "string"
+          },
+          "webSiteId": {
+            "description": "站点 ID，必填。1=us,2=gb,3=de,4=fr,5=jp,6=ca,8=it,9=es,10=in,11=mx,12=au,13=br,17=pl,21=ae,22=sa,23=eg",
+            "type": "string"
+          }
+        },
+        "required": [
+          "webSiteId"
+        ],
+        "type": "object"
+      },
+      "name": "amz_product_competitor"
+    },
+    {
+      "description": "查询专利法律状态：返回每条专利的法律事件（event_status）、法律状态（legal_status）、简单法律状态（simple_legal_status）及状态更新日期。patent_id 与 patent_number 至少传其一；支持批量，逗号分隔最多 100 条。",
+      "inputSchema": {
+        "properties": {
+          "patent_id": {
+            "description": "专利 ID；与 patent_number 至少填其一，同时填写时优先使用。批量时多个 ID 用英文逗号分隔，≤100 条",
+            "type": "string"
+          },
+          "patent_number": {
+            "description": "公开（公告）号；批量规则同 patent_id",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "name": "patent_legal_status"
+    },
+    {
+      "description": "查询专利权利要求原文：返回每条专利的权利要求文本（claim_text）、语言、数量及独立权项数。patent_id 与 patent_number 至少传其一；可通过 replace_by_related=1 在无数据时使用同族替代；支持批量，逗号分隔最多 100 条。",
+      "inputSchema": {
+        "properties": {
+          "patent_id": {
+            "description": "专利 ID；与 patent_number 至少填其一。批量时多个 ID 用英文逗号分隔，≤100 条",
+            "type": "string"
+          },
+          "patent_number": {
+            "description": "公开（公告）号；批量规则同 patent_id",
+            "type": "string"
+          },
+          "replace_by_related": {
+            "description": "无数据时是否用同族替代：1=是，0=否（默认）",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "name": "patent_claim_data"
+    },
+    {
+      "description": "查询当前登录账号已开通的 MCP/API 服务、套餐状态和剩余额度。用户问账号、余额、额度、订阅时调用。",
+      "inputSchema": {
+        "properties": {},
+        "type": "object"
+      },
+      "name": "account_info"
+    },
+    {
+      "description": "按 SKU（ASIN）与可选站点查询 Amazon 商品详情，返回标题、链接、价格、品牌、卖家、类目路径、BSR、上架时间、评价、主图、尺寸重量、五点描述等字段",
+      "inputSchema": {
+        "properties": {
+          "skuId": {
+            "description": "AMZ SKU ID",
+            "type": "string"
+          },
+          "webSiteId": {
+            "description": "站点ID(1=us,2=gb,3=de,4=fr,5=jp,6=ca,8=it,9=es,10=in,11=mx,12=au,13=br,17=pl,21=ae,22=sa,23=eg)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "skuId"
+        ],
+        "type": "object"
+      },
+      "name": "amz_sku_query"
+    },
+    {
+      "description": "TT 商品销售趋势：返回多条序列（销量、销售额、价格等 analyzeTrendType），每条含 commodityAnalyzeTrendList 坐标点（JSON 字段 name/value）。时间窗口由 pastMonth / pastDays / month 三选一优先级决定。",
+      "inputSchema": {
+        "properties": {
+          "commodityId": {
+            "description": "TT 商品 ID；与 shopId 至少填其一，否则报「编号不能为空」。本接口为商品维度趋势，建议传此字段。",
+            "type": "string"
+          },
+          "countryRegion": {
+            "description": "国家/地区，建议与选品站点一致，否则可能无数据或不准。",
+            "type": "string"
+          },
+          "month": {
+            "description": "自然月 yyyyMM（如 202503）；pastMonth、pastDays 均未传时使用，该月内按日展开。",
+            "type": "string"
+          },
+          "pastDays": {
+            "description": "按日：pastMonth 未传时可用，最近 pastDays 天（日粒度，口径以服务端为准）。",
+            "type": "integer"
+          },
+          "pastMonth": {
+            "description": "按月回溯：非空时优先使用，从当前月起共 pastMonth 个月（月粒度）。",
+            "type": "integer"
+          },
+          "shopId": {
+            "description": "店铺编号；与 commodityId 至少填其一。商品趋势场景可仅传 commodityId。",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "name": "tt_commodity_sales_trend"
+    },
+    {
+      "description": "TT 商品原声/评论口碑分析：按维度分组返回观点摘要、提及次数、占比与说明；需 commodityId。无配置时 data 为空数组。若传 size 则须 ≤30；若传 startTime/endTime 须成对。",
+      "inputSchema": {
+        "properties": {
+          "commodityId": {
+            "description": "TT 商品 ID；为空时报「商品编号不能为空」。",
+            "type": "string"
+          },
+          "countryRegion": {
+            "description": "国家/地区，与其它商品接口对齐用；本分析以商品 ID 为主。",
+            "type": "string"
+          },
+          "current": {
+            "description": "页码，继承分页模型默认 1；本接口不做列表分页，可不传。",
+            "type": "integer"
+          },
+          "endTime": {
+            "description": "结束时间；须与 startTime 成对。本接口统计不依赖时间筛选。",
+            "type": "string"
+          },
+          "size": {
+            "description": "每页条数，继承模型默认 10；若传入须 ≤30，否则「超出每页最大数据限制」。",
+            "type": "integer"
+          },
+          "startTime": {
+            "description": "开始时间；与 endTime 须同时有或同时无，否则日期校验失败。本接口统计不依赖时间筛选。",
+            "type": "string"
+          }
+        },
+        "required": [
+          "commodityId"
+        ],
+        "type": "object"
+      },
+      "name": "tt_commodity_voice_analyze"
+    },
+    {
+      "description": "TT 商品评论/原声分页查询：按 commodityId + countryRegion 返回评论人、时间、评分、正文、SKU 规格及结构化标签；支持时间区间与voiceContent 关键词筛选。countryRegion 须为中文站名。若传 size 则须 ≤10；若传 startTime/endTime 须成对。",
+      "inputSchema": {
+        "properties": {
+          "commodityId": {
+            "description": "TT 商品 ID；为空时报「商品编号不能为空」。",
+            "type": "string"
+          },
+          "countryRegion": {
+            "description": "国家/地区，必填中文站名（如美国、印度尼西亚，见附录表 1.3）；不能传 US、印尼等。为空返回「国家/地区不能为空」，非法值返回「请输入正确的国家/地区」（HTTP 400）。",
+            "type": "string"
+          },
+          "current": {
+            "description": "当前页码，默认 1。",
+            "type": "integer"
+          },
+          "endTime": {
+            "description": "结束时间，如 2026-06-23；不传或空不过滤；须与 startTime 成对。",
+            "type": "string"
+          },
+          "size": {
+            "description": "每页条数，默认 5；若传入须 ≤10，否则「超出每页最大数据限制」。",
+            "type": "integer"
+          },
+          "startTime": {
+            "description": "开始时间，如 2026-03-23；不传或空不过滤；须与 endTime 成对。",
+            "type": "string"
+          },
+          "voiceContent": {
+            "description": "评论关键词；按评论正文模糊匹配，为空表示不过滤。",
+            "type": "string"
+          }
+        },
+        "required": [
+          "commodityId",
+          "countryRegion"
+        ],
+        "type": "object"
+      },
+      "name": "tt_commodity_voice_read"
+    },
+    {
+      "description": "按站点、关键词查询 Amazon 关键词月搜索趋势，返回 monthSearchJson，含各月搜索量及同比/环比/近三月增长率",
+      "inputSchema": {
+        "properties": {
+          "keyword": {
+            "description": "关键词，如 toy sharks",
+            "type": "string"
+          },
+          "webSiteId": {
+            "description": "市场站点 ID。常用：1=us,2=gb,3=de,4=fr,5=jp,6=ca,8=it,9=es,10=in,11=mx,12=au,13=br,17=pl,21=ae,22=sa,23=eg",
+            "type": "string"
+          }
+        },
+        "required": [
+          "webSiteId",
+          "keyword"
+        ],
+        "type": "object"
+      },
+      "name": "amz_keyword_research_trends"
+    },
+    {
+      "description": "TT 商品详情：图片、标题、链接、类目、价格、销量/销售额、达人数与视频数、星级、商品佣金、店铺信息、关注状态等。态；无查看全部权限时受详情次数额度限制。密钥仅走网关。",
+      "inputSchema": {
+        "properties": {
+          "commodityId": {
+            "description": "TT 商品 ID；为空时报「商品编号不能为空」。",
+            "type": "string"
+          },
+          "countryRegion": {
+            "description": "国家/地区；为空时服务端校验失败（与站内选品一致）。",
+            "type": "string"
+          }
+        },
+        "required": [
+          "commodityId",
+          "countryRegion"
+        ],
+        "type": "object"
+      },
+      "name": "tt_commodity_detail"
+    }
+  ]
+}
