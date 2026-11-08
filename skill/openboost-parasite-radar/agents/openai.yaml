@@ -1,0 +1,11 @@
+interface:
+  display_name: "跨境大卖选品雷达"
+  short_description: "拆爆款、挖差评、查搜索，用真实数据找到配件机会并交付证据卡"
+  default_prompt: "用 $openboost-parasite-radar 拆美国宠物爆款，找适合轻小件切入的配件机会，给我证据、反证和测品计划。"
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "openboost-all-mcp"
+      description: "TikTok、Amazon、专利取证数据"
+      transport: "streamable_http"
+      url: "https://mcp.openboostai.com/mcp-servers/openboost-all-mcp"
