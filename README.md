@@ -72,7 +72,7 @@ python3 skill/openboost-parasite-radar/scripts/render_report.py results/report.j
 
 ## 示例与验证范围
 
-下载后打开 [案例 HTML](docs/index.html)。产品图和图表已内嵌；原视频以来源链接展示，播放需要联网。
+[在线查看案例](https://zarockfat.github.io/crossborder-product-radar-zgg/)（直接打开完整网页，无需下载）。也可下载 [HTML 文件](docs/index.html) 后用浏览器打开。产品图和图表已内嵌；原视频以来源链接展示，播放需要联网。
 
 已实测账号、TikTok 商品/评论/视频/达人档位、Amazon 竞品/评论/关键词与趋势、专利语义检索与状态。报告页面已检查图片、放大交互及移动端布局。未对每个接口和所有异常分支作完整测试。
 
