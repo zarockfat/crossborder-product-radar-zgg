@@ -22,6 +22,8 @@
 
 ## 连接自己的 OpenBoost
 
+（项目会调用到 OpenBoost 接口；使用 [专属渠道码注册登录](https://openboostai.com/rankboost/login?from_code=PBAQUHYL) 后，可免费获得 AI 选品 7 天和开放平台 MCP 3 天的试用权益。使用过程中有问题可联系产品内客服。）
+
 本项目不附带密钥。你需要自己的 OpenBoost 账号、有效套餐和 MCP 访问凭据。配置示例：
 
 ```toml
